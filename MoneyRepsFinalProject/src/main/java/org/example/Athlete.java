@@ -7,10 +7,11 @@ public class Athlete extends User {
     private int totalEarnings = 0;
     private List<WorkoutLog> workoutHistory = new ArrayList<>();
 
-    public Athlete(String name) {
-        super(name);
+    public Athlete(String username, int id) {
+        super(username);
     }
-    public void logExercise(Exercise exercise, int reps){
+
+    public void logExercise(Exercise exercise, int reps) {
         int earned = exercise.calculateEarnings(reps);
         totalEarnings += earned;
         workoutHistory.add(new WorkoutLog(exercise.getName(), reps, earned));
@@ -20,20 +21,12 @@ public class Athlete extends User {
         return totalEarnings;
     }
 
-    public List<WorkoutLog> getWorkoutHistory() {
-        return workoutHistory;
-    }
-
-    @Override
-    public void displayInfo(){
-        System.out.println("Athlete Username: " + name);
+    public void displayInfo() {
+        System.out.println("Athlete: " + username + " (ID: " + id + ")");
         System.out.println("Total Earnings: " + totalEarnings + " points");
         System.out.println("Workout History:");
-        for (WorkoutLog log : workoutHistory) {
-            System.out.println(log.getExerciseName() + ": " + log.getReps() + " reps, " + log.getEarnings() + " points");
-        }
+        workoutHistory.forEach(log -> System.out.println(log.getExerciseName() + ": " + log.getReps() + " reps, " + log.getEarnings() + " points"));
     }
-
-
 }
+
 

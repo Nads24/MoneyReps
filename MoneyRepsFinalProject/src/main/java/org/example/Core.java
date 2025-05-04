@@ -5,9 +5,10 @@ public class Core extends Exercise {
     public Core(String name, int difficulty) {
         super(name, difficulty);
     }
+
     @Override
-    public int calculateEarnings(int reps){
-        return reps * difficulty* 1;
+    public int calculateEarnings(int reps) {
+        return reps * difficulty * 1;
     }
 
     @Override

@@ -1,5 +1,5 @@
 package org.example;
 
-public interface Reedemable{
+public interface Reedemable {
     int calculateEarnings(int reps);
 }

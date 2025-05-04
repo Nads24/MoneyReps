@@ -2,171 +2,179 @@ package org.example;
 
 import java.util.*;
 
-public class Main{
-    private static Scanner scanner = new Scanner(System.in);
-    private static Map<String, Athlete> athletes = new HashMap<>();
+public class Main {
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Map<Integer, Athlete> athletes = new HashMap<>();
+    private static final Map<Integer, Trainer> trainers = new HashMap<>();
 
     public static void main(String[] args) {
         while (true) {
-            System.out.println("\n--- MoneyReps Main Menu ---");
-            System.out.print("Enter name (or 'exit' to quit): ");
-            String name = scanner.nextLine();
-            if (name.equalsIgnoreCase("exit")) break;
+            System.out.print("\nEnter username (or type 'exit'): ");
+            String username = scanner.nextLine();
+            if (username.equalsIgnoreCase("exit")) break;
 
-            System.out.print("Are you an Athlete (A) or Trainer (T)? ");
-            String role = scanner.nextLine();
-
-            if (role.equalsIgnoreCase("A")) {
-                Athlete athlete = athletes.computeIfAbsent(name, Athlete::new);
-                runAthleteSession(athlete);
-            } else if (role.equalsIgnoreCase("T")) {
-                Trainer trainer = new Trainer(name);
-                runTrainerSession(trainer);
-            } else {
-                System.out.println("Invalid role. Try again.");
+            System.out.print("Enter your ID: ");
+            String idInput = scanner.nextLine();
+            int id;
+            try {
+                id = Integer.parseInt(idInput);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid ID.");
+                continue;
             }
+
+            User user = null;
+            if (athletes.containsKey(id) && athletes.get(id).getUsername().equalsIgnoreCase(username)) {
+                user = athletes.get(id);
+            } else if (trainers.containsKey(id) && trainers.get(id).getUsername().equalsIgnoreCase(username)) {
+                user = trainers.get(id);
+            }
+
+            if (user == null) {
+                System.out.print("Username not found. Register as Trainer (T) or Athlete (A): ");
+                String role = scanner.nextLine();
+                if (role.equalsIgnoreCase("T")) {
+                    Trainer newTrainer = new Trainer(username, id);
+                    trainers.put(id, newTrainer);
+                    user = newTrainer;
+                } else if (role.equalsIgnoreCase("A")) {
+                    Athlete newAthlete = new Athlete(username, id);
+                    athletes.put(id, newAthlete);
+                    user = newAthlete;
+                } else {
+                    System.out.println("Invalid role.");
+                    continue;
+                }
+            }
+
+            System.out.println("Welcome back, " + user.getUsername() + "! Your ID is " + user.getId());
+
+            if (user instanceof Trainer) runTrainer((Trainer) user);
+            else if (user instanceof Athlete) runAthlete((Athlete) user);
         }
     }
 
-    private static void runAthleteSession(Athlete athlete) {
-        List<Exercise> availableExercises = new ArrayList<>(Arrays.asList(
+    private static void runAthlete(Athlete athlete) {
+        List<Exercise> customExercises = new ArrayList<>(List.of(
                 new Push("Standard Pushup", 2),
                 new Pull("Wide Pullup", 3),
                 new Core("Plank", 1)
         ));
 
-        boolean running = true;
-        while (running) {
+        while (true) {
             System.out.println("\n--- Athlete Menu ---");
             System.out.println("1. Log Exercise");
-            System.out.println("2. View Athlete Info");
-            System.out.println("3. Add New Exercise");
+            System.out.println("2. View Info");
+            System.out.println("3. Add Exercise");
             System.out.println("4. Logout");
-            System.out.print("Enter your choice: ");
+            System.out.print("Choice: ");
+            int choice = Integer.parseInt(scanner.nextLine());
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (choice) {
-                case 1:
-                    System.out.println("\nChoose an exercise:");
-                    for (int i = 0; i < availableExercises.size(); i++) {
-                        System.out.print((i + 1) + ". ");
-                        availableExercises.get(i).displayDetails();
-                    }
-                    System.out.print("Enter your choice: ");
-                    int exChoice = scanner.nextInt();
-                    scanner.nextLine();
-                    if (exChoice > 0 && exChoice <= availableExercises.size()) {
-                        Exercise selected = availableExercises.get(exChoice - 1);
-                        System.out.print("Enter number of reps: ");
-                        int reps = scanner.nextInt();
-                        scanner.nextLine();
-                        athlete.logExercise(selected, reps);
-                        System.out.println("Logged " + reps + " reps of " + selected.getName());
-                    } else {
-                        System.out.println("Invalid choice.");
-                    }
-                    break;
-                case 2:
-                    athlete.displayInfo();
-                    break;
-                case 3:
-                    System.out.print("Enter exercise name: ");
-                    String name = scanner.nextLine();
-                    System.out.print("Enter difficulty (1-5): ");
-                    int diff = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("Type (Push/Pull/Core): ");
-                    String type = scanner.nextLine();
-                    Exercise newEx;
-                    switch (type.toLowerCase()) {
-                        case "push": newEx = new Push(name, diff); break;
-                        case "pull": newEx = new Pull(name, diff); break;
-                        case "core": newEx = new Core(name, diff); break;
-                        default: System.out.println("Invalid type."); continue;
-                    }
-                    availableExercises.add(newEx);
+            if (choice == 1) {
+                for (int i = 0; i < customExercises.size(); i++) {
+                    System.out.print((i + 1) + ". ");
+                    customExercises.get(i).displayDetails();
+                }
+                System.out.print("Select exercise: ");
+                int idx = Integer.parseInt(scanner.nextLine());
+                if (idx < 1 || idx > customExercises.size()) {
+                    System.out.println("Invalid."); continue;
+                }
+                System.out.print("Reps: ");
+                int reps = Integer.parseInt(scanner.nextLine());
+                athlete.logExercise(customExercises.get(idx - 1), reps);
+            } else if (choice == 2) {
+                athlete.displayInfo();
+            } else if (choice == 3) {
+                System.out.print("Name: ");
+                String name = scanner.nextLine();
+                System.out.print("Difficulty (1-5): ");
+                int difficulty = Integer.parseInt(scanner.nextLine());
+                System.out.print("Type (Push/Pull/Core): ");
+                String type = scanner.nextLine().toLowerCase();
+                Exercise ex = switch (type) {
+                    case "push" -> new Push(name, difficulty);
+                    case "pull" -> new Pull(name, difficulty);
+                    case "core" -> new Core(name, difficulty);
+                    default -> null;
+                };
+                if (ex != null) {
+                    customExercises.add(ex);
                     System.out.println("Exercise added.");
-                    break;
-                case 4:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid option.");
+                } else System.out.println("Invalid type.");
+            } else if (choice == 4) {
+                break;
+            } else {
+                System.out.println("Invalid option.");
             }
         }
     }
 
-    private static void runTrainerSession(Trainer trainer) {
-        boolean running = true;
-        while (running) {
+    private static void runTrainer(Trainer trainer) {
+        while (true) {
             System.out.println("\n--- Trainer Menu ---");
-            System.out.println("1. View Trainer Info");
-            System.out.println("2. Add or Update Exercise");
-            System.out.println("3. Assign Exercise to Athlete");
+            System.out.println("1. View Info");
+            System.out.println("2. Add Exercise");
+            System.out.println("3. Assign Exercise");
             System.out.println("4. Logout");
-            System.out.print("Enter your choice: ");
+            System.out.print("Choice: ");
+            int choice = Integer.parseInt(scanner.nextLine());
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (choice) {
-                case 1:
-                    trainer.displayInfo();
-                    break;
-                case 2:
-                    System.out.print("Enter exercise name: ");
-                    String name = scanner.nextLine();
-                    System.out.print("Enter difficulty (1-5): ");
-                    int diff = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("Type (Push/Pull/Core): ");
-                    String type = scanner.nextLine();
-                    Exercise newEx;
-                    switch (type.toLowerCase()) {
-                        case "push": newEx = new Push(name, diff); break;
-                        case "pull": newEx = new Pull(name, diff); break;
-                        case "core": newEx = new Core(name, diff); break;
-                        default: System.out.println("Invalid type."); continue;
-                    }
-                    trainer.addOrUpdateExercise(newEx);
+            if (choice == 1) {
+                trainer.displayInfo();
+            } else if (choice == 2) {
+                System.out.print("Name: ");
+                String name = scanner.nextLine();
+                System.out.print("Difficulty (1-5): ");
+                int difficulty = Integer.parseInt(scanner.nextLine());
+                System.out.print("Type (Push/Pull/Core): ");
+                String type = scanner.nextLine().toLowerCase();
+                Exercise ex = switch (type) {
+                    case "push" -> new Push(name, difficulty);
+                    case "pull" -> new Pull(name, difficulty);
+                    case "core" -> new Core(name, difficulty);
+                    default -> null;
+                };
+                if (ex != null) {
+                    trainer.addOrUpdateExercise(ex);
                     System.out.println("Exercise added/updated.");
-                    break;
-                case 3:
-                    System.out.print("Enter athlete username to assign to: ");
-                    String athleteName = scanner.nextLine();
-                    Athlete athlete = athletes.get(athleteName);
-                    if (athlete == null) {
-                        System.out.println("Athlete not found.");
+                } else System.out.println("Invalid type.");
+            } else if (choice == 3) {
+                System.out.print("Athlete name: ");
+                String name = scanner.nextLine();
+                Athlete athlete = null;
+                for (Athlete a : athletes.values()) {
+                    if (a.getUsername().equalsIgnoreCase(name)) {
+                        athlete = a;
                         break;
                     }
-                    List<Exercise> trainerExs = trainer.getExercises();
-                    if (trainerExs.isEmpty()) {
-                        System.out.println("No exercises to assign.");
-                        break;
-                    }
-                    for (int i = 0; i < trainerExs.size(); i++) {
-                        System.out.print((i + 1) + ". ");
-                        trainerExs.get(i).displayDetails();
-                    }
-                    System.out.print("Enter exercise number to assign: ");
-                    int exIdx = scanner.nextInt();
-                    scanner.nextLine();
-                    if (exIdx > 0 && exIdx <= trainerExs.size()) {
-                        trainer.assignExerciseToAthlete(athleteName, trainerExs.get(exIdx - 1));
-                        System.out.println("Exercise assigned to " + athleteName);
-                    } else {
-                        System.out.println("Invalid choice.");
-                    }
-                    break;
-                case 4:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid option.");
+                }
+                if (athlete == null) {
+                    System.out.println("Athlete not found.");
+                    continue;
+                }
+                List<Exercise> exs = trainer.getExercises();
+                if (exs.isEmpty()) {
+                    System.out.println("No exercises to assign.");
+                    continue;
+                }
+                for (int i = 0; i < exs.size(); i++) {
+                    System.out.print((i + 1) + ". ");
+                    exs.get(i).displayDetails();
+                }
+                System.out.print("Select exercise: ");
+                int idx = Integer.parseInt(scanner.nextLine());
+                if (idx < 1 || idx > exs.size()) {
+                    System.out.println("Invalid.");
+                    continue;
+                }
+                trainer.assignExerciseToAthlete(name, exs.get(idx - 1));
+                System.out.println("Assigned.");
+            } else if (choice == 4) {
+                break;
+            } else {
+                System.out.println("Invalid option.");
             }
         }
     }
-
 }

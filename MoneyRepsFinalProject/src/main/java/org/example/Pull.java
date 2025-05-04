@@ -1,12 +1,13 @@
 package org.example;
 
-public class Pull extends Exercise{
+public class Pull extends Exercise {
 
     public Pull(String name, int difficulty) {
         super(name, difficulty);
     }
+
     @Override
-    public int calculateEarnings(int reps){
+    public int calculateEarnings(int reps) {
         return reps * difficulty * 3;
     }
 

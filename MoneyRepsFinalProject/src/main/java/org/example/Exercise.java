@@ -1,6 +1,6 @@
 package org.example;
 
-public abstract class Exercise implements Reedemable, Comparable<Exercise>{
+public abstract class Exercise implements Reedemable, Comparable<Exercise> {
     protected String name;
     protected int difficulty;
 
@@ -16,6 +16,7 @@ public abstract class Exercise implements Reedemable, Comparable<Exercise>{
     public int getDifficulty() {
         return difficulty;
     }
+
     public abstract void displayDetails();
 
     @Override

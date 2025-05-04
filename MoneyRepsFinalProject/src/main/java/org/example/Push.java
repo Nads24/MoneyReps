@@ -5,9 +5,10 @@ public class Push extends Exercise {
     public Push(String name, int difficulty) {
         super(name, difficulty);
     }
+
     @Override
-    public int calculateEarnings(int reps){
-        return reps * difficulty* 2;
+    public int calculateEarnings(int reps) {
+        return reps * difficulty * 2;
     }
 
     @Override

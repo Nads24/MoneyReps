@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Trainer extends User{
+class Trainer extends User {
     private List<Exercise> exercises = new ArrayList<>();
     private Map<String, List<Exercise>> assignedExercises = new HashMap<>();
 
-    public Trainer(String name) {
-        super(name);
+    public Trainer(String username, int id) {
+        super(username);
     }
 
     public void addOrUpdateExercise(Exercise exercise) {
@@ -30,20 +30,14 @@ public class Trainer extends User{
         return exercises;
     }
 
-    @Override
     public void displayInfo() {
-        System.out.println("Trainer Username: " + name);
+        System.out.println("Trainer: " + username + " (ID: " + id + ")");
         System.out.println("Exercises Managed:");
-        for (Exercise exercise : exercises) {
-            exercise.displayDetails();
-        }
-        System.out.println("\nAssigned Exercises:");
-        for (String athlete : assignedExercises.keySet()) {
-            System.out.println("To " + athlete + ":");
-            for (Exercise e : assignedExercises.get(athlete)) {
-                e.displayDetails();
-            }
+        exercises.forEach(Exercise::displayDetails);
+        System.out.println("Assigned Exercises:");
+        for (Map.Entry<String, List<Exercise>> entry : assignedExercises.entrySet()) {
+            System.out.println("To " + entry.getKey() + ":");
+            entry.getValue().forEach(Exercise::displayDetails);
         }
     }
 }
-

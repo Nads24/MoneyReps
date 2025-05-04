@@ -8,7 +8,7 @@ public class Athlete extends User {
     private List<WorkoutLog> workoutHistory = new ArrayList<>();
 
     public Athlete(String username, int id) {
-        super(username);
+        super(username, id);
     }
 
     public void logExercise(Exercise exercise, int reps) {

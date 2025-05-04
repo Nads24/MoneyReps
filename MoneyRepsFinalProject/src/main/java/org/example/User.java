@@ -4,7 +4,7 @@ public abstract class User {
     protected  int id;
     protected String username;
 
-    public User(String username) {
+    public User(String username, int id) {
         this.username = username;
         this.id = id;
     }

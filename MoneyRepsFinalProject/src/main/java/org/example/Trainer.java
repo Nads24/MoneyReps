@@ -11,7 +11,7 @@ class Trainer extends User {
     private Map<String, List<Exercise>> assignedExercises = new HashMap<>();
 
     public Trainer(String username, int id) {
-        super(username);
+        super(username, id);
     }
 
     public void addOrUpdateExercise(Exercise exercise) {

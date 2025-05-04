@@ -2,15 +2,14 @@ package org.example;
 
 import java.util.Objects;
 
-public class User {
+public abstract class User {
     protected String name;
     protected int age;
 
     protected int points;
 
-    public User(String name, int age) {
+    public User(String name) {
         this.name = name;
-        this.age = age;
         this.points = points;
     }
 
@@ -59,4 +58,6 @@ public class User {
                 ", points=" + points +
                 '}';
     }
+
+    public abstract void displayInfo();
 }

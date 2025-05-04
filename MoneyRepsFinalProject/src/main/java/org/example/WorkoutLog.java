@@ -11,4 +11,27 @@ public class WorkoutLog {
         this.earnings = earnings;
     }
 
+    public String getExerciseName() {
+        return exerciseName;
+    }
+
+    public void setExerciseName(String exerciseName) {
+        this.exerciseName = exerciseName;
+    }
+
+    public int getReps() {
+        return reps;
+    }
+
+    public void setReps(int reps) {
+        this.reps = reps;
+    }
+
+    public int getEarnings() {
+        return earnings;
+    }
+
+    public void setEarnings(int earnings) {
+        this.earnings = earnings;
+    }
 }

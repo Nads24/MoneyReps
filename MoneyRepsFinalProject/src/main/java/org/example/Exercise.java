@@ -18,8 +18,8 @@ public abstract class Exercise implements Reedemable, Comparable<Exercise>{
     }
     public abstract void displayDetails();
 
-    /*@Override
+    @Override
     public int compareTo(Exercise other) {
-
-    }*/
+        return Integer.compare(this.difficulty, other.difficulty);
+    }
 }

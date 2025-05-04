@@ -10,7 +10,7 @@ public class Athlete extends User {
     public Athlete(String name) {
         super(name);
     }
-    public void logExercice(Exercise exercise, int reps){
+    public void logExercise(Exercise exercise, int reps){
         int earned = exercise.calculateEarnings(reps);
         totalEarnings += earned;
         workoutHistory.add(new WorkoutLog(exercise.getName(), reps, earned));

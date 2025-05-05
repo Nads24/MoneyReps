@@ -60,6 +60,7 @@ public class Main {
                 new Pull("Wide Pullup", 3),
                 new Core("Plank", 1)
         ));
+        customExercises.addAll(athlete.getAssignedExercises());
 
         while (true) {
             System.out.println("\n--- Athlete Menu ---");
@@ -168,7 +169,9 @@ public class Main {
                     System.out.println("Invalid.");
                     continue;
                 }
-                trainer.assignExerciseToAthlete(name, exs.get(idx - 1));
+                Exercise selectedExercise = exs.get(idx - 1);
+                trainer.assignExerciseToAthlete(name, selectedExercise);
+                athlete.assignExercises(List.of(selectedExercise));
                 System.out.println("Assigned.");
             } else if (choice == 4) {
                 break;

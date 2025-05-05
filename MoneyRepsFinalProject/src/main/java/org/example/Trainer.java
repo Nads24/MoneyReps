@@ -25,6 +25,9 @@ class Trainer extends User {
         assignedExercises.putIfAbsent(athleteName, new ArrayList<>());
         assignedExercises.get(athleteName).add(exercise);
     }
+    public List<Exercise> getAssignedExercisesForAthlete(String athleteName) {
+        return assignedExercises.getOrDefault(athleteName, new ArrayList<>());
+    }
 
     public List<Exercise> getExercises() {
         return exercises;

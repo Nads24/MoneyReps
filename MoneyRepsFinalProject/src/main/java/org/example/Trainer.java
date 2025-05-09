@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-class Trainer extends User {
+public class Trainer extends User {
     private List<Exercise> exercises = new ArrayList<>();
     private Map<String, List<Exercise>> assignedExercises = new HashMap<>();
 

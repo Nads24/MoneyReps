@@ -17,6 +17,9 @@ public abstract class Exercise implements Reedemable, Comparable<Exercise> {
         return difficulty;
     }
 
+    /**
+     * Display specific details about the exercises
+     */
     public abstract void displayDetails();
 
     @Override

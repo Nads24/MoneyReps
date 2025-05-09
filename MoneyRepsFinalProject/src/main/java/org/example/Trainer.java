@@ -21,18 +21,38 @@ class Trainer extends User {
         exercises.add(exercise);
     }
 
+    /**
+     * Assigns a list of exercises to the athlete
+     * @param athleteName the na,e of the athlete
+     * @param exercise the exercise to assign
+     */
     public void assignExerciseToAthlete(String athleteName, Exercise exercise) {
         assignedExercises.putIfAbsent(athleteName, new ArrayList<>());
         assignedExercises.get(athleteName).add(exercise);
     }
+
+    /**
+     * Retrieves all exercises assigned to a given athlete.
+     *
+     * @param athleteName the name of the athlete
+     * @return list of exercises assigned to the athlete (empty if none)
+     */
     public List<Exercise> getAssignedExercisesForAthlete(String athleteName) {
         return assignedExercises.getOrDefault(athleteName, new ArrayList<>());
     }
 
+    /**
+     * Returns the list of all exercises managed by the trainer.
+     *
+     * @return list of created/managed exercises
+     */
     public List<Exercise> getExercises() {
         return exercises;
     }
 
+    /**
+     * Displays the trainer's information
+     */
     public void displayInfo() {
         System.out.println("Trainer: " + username + " (ID: " + id + ")");
         System.out.println("Exercises Managed:");

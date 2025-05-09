@@ -12,6 +12,12 @@ public class Athlete extends User {
         super(username, id);
     }
 
+    /**
+     * Logs an exercise performed by the athlete, calculates earnings,
+     * updates total earning and adds to the workout history
+     * @param exercise the exercises performed
+     * @param reps the number of repetitions completed
+     */
     public void logExercise(Exercise exercise, int reps) {
         int earned = exercise.calculateEarnings(reps);
         totalEarnings += earned;
@@ -22,6 +28,10 @@ public class Athlete extends User {
         return totalEarnings;
     }
 
+    /**
+     * Assigns a list of exercises to the athlete
+     * @param exercises the exercies to assign
+     */
     public void assignExercises(List<Exercise> exercises) {
         assignedExercises.addAll(exercises);
     }
@@ -30,6 +40,9 @@ public class Athlete extends User {
         return assignedExercises;
     }
 
+    /**
+     * Displays the athlete's information
+     */
     public void displayInfo() {
         System.out.println("Athlete: " + username + " (ID: " + id + ")");
         System.out.println("Total Earnings: " + totalEarnings + " points");

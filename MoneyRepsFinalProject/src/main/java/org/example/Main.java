@@ -54,6 +54,11 @@ public class Main {
         }
     }
 
+    /**
+     * Displays the athlete menu and allows the athlete to log exercises,
+     * view personal info, add custom exercises and log out
+     * @param athlete the logged-in Athlete user
+     */
     private static void runAthlete(Athlete athlete) {
         List<Exercise> customExercises = new ArrayList<>(List.of(
                 new Push("Standard Pushup", 2),
@@ -111,6 +116,11 @@ public class Main {
         }
     }
 
+    /**
+     *Displays the trainer menu and allows the trainer to view personal info,
+     * add or update exercises, assign exercises to athletes and log out.
+     * @param trainer the logged-in Trainer user
+     */
     private static void runTrainer(Trainer trainer) {
         while (true) {
             System.out.println("\n--- Trainer Menu ---");

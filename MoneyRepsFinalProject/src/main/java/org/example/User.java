@@ -17,5 +17,9 @@ public abstract class User {
         return id;
     }
 
+    /**
+     * Abstract method for displaying user-specific information.
+     * Must be implemented by subclasses such as Athlete or Trainer.
+     */
     public abstract void displayInfo();
 }

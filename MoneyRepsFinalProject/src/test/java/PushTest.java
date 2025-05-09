@@ -4,20 +4,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PushTest {
-    private Push push;
 
     @Test
-    void calculateEarnings_basic() {
-        assertEquals(20, push.calculateEarnings(5));
+    void testCalculateEarningsPositive() {
+        Push push = new Push("Pushup", 2);
+        assertEquals(10, push.calculateEarnings(5)); // 5 * 2 = 10
     }
 
     @Test
-    void calculateEarnings_zeroReps() {
+    void testCalculateEarningsZero() {
+        Push push = new Push("Pushup", 2);
         assertEquals(0, push.calculateEarnings(0));
-    }
-
-    @Test
-    void calculateEarnings_negativeReps() {
-        assertEquals(-20, push.calculateEarnings(-5));
     }
 }

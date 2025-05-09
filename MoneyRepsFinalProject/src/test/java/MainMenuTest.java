@@ -1,34 +1,39 @@
-import org.example.Athlete;
-import org.example.Push;
-import org.example.Trainer;
+package org.example;
+
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MainMenuTest {
 
     @Test
-    void testTrainerAndAthleteRegistration() {
-        Trainer t = new Trainer("TrainerOne", 100100);
-        Athlete a = new Athlete("AthleteOne", 200200);
-        assertEquals("TrainerOne", t.getUsername());
-        assertEquals("AthleteOne", a.getUsername());
-    }
+    void testTrainerAssignsAndAthleteLogsExercises() {
+        Trainer trainer = new Trainer("CoachAminul", 100);
+        Athlete athlete = new Athlete("Yi", 200);
 
-    @Test
-    void testExerciseAssignmentBetweenUsers() {
-        Trainer t = new Trainer("TrainerOne", 100100);
-        Athlete a = new Athlete("AthleteOne", 200200);
-        Push push = new Push("Pushup", 2);
-        t.assignExerciseToAthlete(a.getUsername(), push);
-        a.assignExercises(t.getAssignedExercisesForAthlete(a.getUsername()));
-        assertEquals(1, a.getAssignedExercises().size());
-    }
+        Push push = new Push("Pushup", 2); // 10 reps → 10 * 2 * 2 = 40
+        Pull pull = new Pull("Pullup", 3); // 5 reps → 5 * 3 * 3 = 45
+        Core core = new Core("Plank", 1);  // added later
 
-    @Test
-    void testLoginRecognitionLogic() {
-        Trainer t = new Trainer("LogTester", 303303);
-        assertEquals("LogTester", t.getUsername());
-        assertEquals(303303, t.getId());
+
+        trainer.addOrUpdateExercise(push);
+        trainer.addOrUpdateExercise(pull);
+        trainer.assignExerciseToAthlete(athlete.getUsername(), push);
+        trainer.assignExerciseToAthlete(athlete.getUsername(), pull);
+        athlete.assignExercises(List.of(push, pull));
+
+        athlete.logExercise(push, 10);// 10 * 2 = 20
+        athlete.logExercise(pull, 5);// 5 *3 = 15
+
+        assertEquals(35, athlete.getTotalEarnings());
+
+        Exercise custom = new Core("Crunches", 2); // 8 * 2 = 16
+        athlete.assignExercises(List.of(custom));
+        athlete.logExercise(custom, 8);
+
+        // 35 + 16 = 51
+        assertEquals(51, athlete.getTotalEarnings());
     }
 }

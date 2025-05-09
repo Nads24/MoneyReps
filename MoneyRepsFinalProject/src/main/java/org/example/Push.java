@@ -9,12 +9,13 @@ public class Push extends Exercise {
     /**
      * Calculates the earnings (points) based on the number of reps and difficulty.
      * (Uses a formula)
+     *
      * @param reps the number of repetitions performed
      * @return the calculated earnings in points
      */
     @Override
     public int calculateEarnings(int reps) {
-        return reps * difficulty * 2;
+        return reps * difficulty;
     }
 
     /**

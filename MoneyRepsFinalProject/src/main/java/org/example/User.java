@@ -1,7 +1,7 @@
 package org.example;
 
 public abstract class User {
-    protected  int id;
+    protected int id;
     protected String username;
 
     public User(String username, int id) {

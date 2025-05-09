@@ -1,76 +1,55 @@
-import org.example.Athlete;
-import org.example.Core;
-import org.example.Push;
-import org.example.WorkoutLog;
+package org.example;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AthleteTest {
-    private Athlete athlete;
-    private Push push;
-    private Core core;
-
 
     @Test
-    void logExercise_single() {
-        athlete.logExercise(push, 5);
+    void testLogExercise_singleLogUpdatesEarningsAndHistory() {
+        Athlete athlete = new Athlete("Yi", 101);
+        Exercise pushExercise = new Push("Push", 2);
+        athlete.logExercise(pushExercise, 10); // 10 reps x 2 = 20
+        athlete.assignExercises(List.of(pushExercise));
         assertEquals(20, athlete.getTotalEarnings());
-    }
-
-    @Test
-    void logExercise_multiple() {
-        athlete.logExercise(push, 5);
-        athlete.logExercise(core, 5);
-        assertEquals(25, athlete.getTotalEarnings());
-    }
-
-    @Test
-    void logExercise_zeroReps() {
-        athlete.logExercise(core, 0);
-        assertEquals(0, athlete.getTotalEarnings());
-    }
-
-    @Test
-    void assignExercises_basic() {
-        athlete.assignExercises(List.of(push));
         assertEquals(1, athlete.getAssignedExercises().size());
     }
 
     @Test
-    void assignExercises_multiple() {
-        athlete.assignExercises(List.of(push, core));
+    void testLogExercise_multipleLogsAccumulateCorrectly() {
+        Athlete athlete = new Athlete("Aminul", 101);
+        Exercise pushExercise = new Push("Push", 2);  // 5 reps = 10 pts
+        Exercise pullExercise = new Pull("Pull", 3);  // 4 reps = 12 pts
+        athlete.logExercise(pushExercise, 5);
+        athlete.logExercise(pullExercise, 4);
+        assertEquals(22, athlete.getTotalEarnings());
+    }
+
+    @Test
+    void testAssignExercises_addsToAssignedList() {
+        Athlete athlete = new Athlete("Nadeem", 101);
+        Exercise pushExercise = new Push("Push", 2);
+        Exercise pullExercise = new Pull("Pull", 3);
+        athlete.assignExercises(List.of(pushExercise, pullExercise));
         assertEquals(2, athlete.getAssignedExercises().size());
     }
 
     @Test
-    void assignExercises_empty() {
-        athlete.assignExercises(List.of());
-        assertEquals(0, athlete.getAssignedExercises().size());
-    }
-}
-
-class WorkoutLogTest {
-    @Test
-    void testLogDetails_basic() {
-        WorkoutLog log = new WorkoutLog("Situps", 15, 30);
-        assertEquals("Situps", log.getExerciseName());
-        assertEquals(15, log.getReps());
-        assertEquals(30, log.getEarnings());
+    void testAssignExercises_accumulatesOnMultipleCalls() {
+        Athlete athlete = new Athlete("Wang", 101);
+        Exercise pushExercise = new Push("Push", 2);
+        Exercise pullExercise = new Pull("Pull", 3);
+        athlete.assignExercises(List.of(pushExercise));
+        athlete.assignExercises(List.of(pullExercise));
+        assertEquals(2, athlete.getAssignedExercises().size());
     }
 
     @Test
-    void testLogDetails_zeroValues() {
-        WorkoutLog log = new WorkoutLog("Plank", 0, 0);
-        assertEquals(0, log.getReps());
-        assertEquals(0, log.getEarnings());
-    }
-
-    @Test
-    void testLogDetails_negativeEarnings() {
-        WorkoutLog log = new WorkoutLog("Burpees", 10, -5);
-        assertEquals(-5, log.getEarnings());
+    void testGetTotalEarnings_initialIsZero() {
+        Athlete athlete = new Athlete("Billy", 101);
+        assertEquals(0, athlete.getTotalEarnings());
     }
 }

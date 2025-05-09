@@ -23,8 +23,9 @@ public class Trainer extends User {
 
     /**
      * Assigns a list of exercises to the athlete
+     *
      * @param athleteName the na,e of the athlete
-     * @param exercise the exercise to assign
+     * @param exercise    the exercise to assign
      */
     public void assignExerciseToAthlete(String athleteName, Exercise exercise) {
         assignedExercises.putIfAbsent(athleteName, new ArrayList<>());

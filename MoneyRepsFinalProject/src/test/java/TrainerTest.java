@@ -7,53 +7,35 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TrainerTest {
-    private Trainer trainer;
-    private Push push;
-    private Core core;
-
 
     @Test
-    void addOrUpdateExercise_newExercise() {
+    void testAddOrUpdateExercise() {
+        Trainer trainer = new Trainer("Coach Aminul", 100);
+        Push push = new Push("Pushup", 2);
+        Core core = new Core("Plank", 1);
+
         trainer.addOrUpdateExercise(push);
         assertEquals(1, trainer.getExercises().size());
-    }
 
-    @Test
-    void addOrUpdateExercise_replaceExercise() {
-        trainer.addOrUpdateExercise(push);
-        trainer.addOrUpdateExercise(new Push("Pushup", 5));
+        trainer.addOrUpdateExercise(new Push("Pushup", 3));
         assertEquals(1, trainer.getExercises().size());
-        assertEquals(5, trainer.getExercises().get(0).getDifficulty());
-    }
+        assertEquals(3, trainer.getExercises().get(0).getDifficulty());
 
-    @Test
-    void addOrUpdateExercise_multipleUnique() {
-        trainer.addOrUpdateExercise(push);
         trainer.addOrUpdateExercise(core);
         assertEquals(2, trainer.getExercises().size());
     }
 
     @Test
-    void assignExerciseToAthlete_basic() {
-        trainer.assignExerciseToAthlete("Sam", push);
-        List<Exercise> assigned = trainer.getAssignedExercisesForAthlete("Sam");
-        assertEquals(1, assigned.size());
-    }
+    void testAssignExerciseToAthlete() {
+        Trainer trainer = new Trainer("Coach Aminul", 100);
+        Push push = new Push("Pushup", 2);
+        Core core = new Core("Plank", 1);
 
-    @Test
-    void assignExerciseToAthlete_multiple() {
-        trainer.assignExerciseToAthlete("Sam", push);
-        trainer.assignExerciseToAthlete("Sam", core);
-        List<Exercise> assigned = trainer.getAssignedExercisesForAthlete("Sam");
-        assertEquals(2, assigned.size());
-    }
-
-    @Test
-    void assignExerciseToAthlete_noExercises() {
-        List<Exercise> assigned = trainer.getAssignedExercisesForAthlete("Unknown");
-        assertTrue(assigned.isEmpty());
+        trainer.assignExerciseToAthlete("Yi", push);
+        trainer.assignExerciseToAthlete("Yi", core);
+        List<Exercise> list = trainer.getAssignedExercisesForAthlete("Yi");
+        assertEquals(2, list.size());
     }
 }

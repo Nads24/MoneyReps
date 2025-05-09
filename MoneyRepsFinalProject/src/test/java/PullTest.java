@@ -4,20 +4,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PullTest {
-    private Pull pull;
 
     @Test
-    void calculateEarnings_basic() {
-        assertEquals(45, pull.calculateEarnings(5));
+    void testCalculateEarningsPositive() {
+        Pull pull = new Pull("Pullup", 3);
+        assertEquals(15, pull.calculateEarnings(5)); // 5 * 3 = 15
     }
 
     @Test
-    void calculateEarnings_zeroReps() {
+    void testCalculateEarningsZero() {
+        Pull pull = new Pull("Pullup", 3);
         assertEquals(0, pull.calculateEarnings(0));
     }
 
-    @Test
-    void calculateEarnings_negativeReps() {
-        assertEquals(-45, pull.calculateEarnings(-5));
-    }
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MarathonController">
+
+    <center>
+        <VBox alignment="CENTER" prefHeight="467.0" prefWidth="341.0" spacing="10">
+            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Marathon Simulator" />
+         <Pane prefHeight="317.0" prefWidth="341.0">
+            <children>
+               <ImageView fx:id="introImageView" fitHeight="318.0" fitWidth="341.0" pickOnBounds="true" />
+            </children>
+         </Pane>
+         <Label fx:id="introLabel" text="Label" />
+
+               
+      
+                  <HBox alignment="CENTER" prefHeight="46.0" prefWidth="200.0" spacing="10">
+                <Button fx:id="playPauseButton" text="Play" />
+                <Button fx:id="resetButton" text="Reset" />
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

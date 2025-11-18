@@ -1,10 +1,10 @@
 package model;
 
 /**
- * Git Repository:
- * https://github.com/Vanier-ComputerScience/420-sf3-re-assignmnet-02-2025-fall-jameshuyha.git
+ * GitHub:
+ * https://github.com/Vanier-ComputerScience/420-sf3-re-assignmnet-02-2025-fall-Nads24
  *
- * @author Huy James Vien Ha (6324151)
+ * Author: Nads
  */
 public class Runner {
 
@@ -48,17 +48,14 @@ public class Runner {
         return finished;
     }
 
-    // Sets position of runner
     public void setXPosition(double xPosition) {
         this.xPosition = xPosition;
     }
 
-    // Defines when runner has reached the finished line
     public void setFinished(boolean finished) {
         this.finished = finished;
     }
 
-    // Updates position based on speed and time of runner
     public void updatePosition(double time) {
         if (!finished) {
             xPosition += speed * time;
